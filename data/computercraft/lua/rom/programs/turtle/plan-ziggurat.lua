@@ -28,27 +28,26 @@ end
 
 -- todo communicate these to other turtles?
 stone = "minecraft:cobblestone"
-planks = "minecraft:planks"
-slab_cobble = "minecraft:stone_slab"
-slab_brick = "minecraft:stone_slab"
-brick = "minecraft:stonebrick"
-stair = "minecraft:stone_stairs"
+planks = "minecraft:spruce_planks"
+slab_cobble = "minecraft:cobblestone_slab"
+slab_brick = "minecraft:stone_brick_slab"
+stair = "minecraft:stone_brick_stairs"
+brick = "minecraft:stone_bricks"
 torch = "minecraft:torch"
 -- damage values. set to nil if dont want to check
 -- todo: slabs can have different names too?
-slab_cobble_damage = 3
-slab_brick_damage = 5
+-- outdated in 1.16.4
+slab_cobble_damage = nil --3
+slab_brick_damage = nil --5
 
 if deluxe then
 	stone = "minecraft:sandstone"
-	planks = "minecraft:concrete" -- which also seem to differ in the damage value. purple is 10
-	slab_cobble = "minecraft:stone_slab"
-	slab_brick = "minecraft:stone_slab2"
+	planks = "minecraft:purple_concrete"
+	slab_cobble = "minecraft:sandstone_slab"
+	slab_brick = "minecraft:red_sandstone_slab"
 	brick = "minecraft:red_sandstone"
 	stair = "minecraft:sandstone_stairs"
 	torch = "minecraft:torch"
-	slab_cobble_damage = 1
-	slab_brick_damage = nil
 end
 
 mat = {}

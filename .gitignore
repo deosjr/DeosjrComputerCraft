@@ -1,5 +1,5 @@
-assets/computercraft/lua/rom/programs/test.lua
-assets/computercraft/lua/rom/programs/turtle/testTurtle.lua
+data/computercraft/lua/rom/programs/test.lua
+data/computercraft/lua/rom/programs/turtle/testTurtle.lua
 
 Compiled Lua sources
 luac.out

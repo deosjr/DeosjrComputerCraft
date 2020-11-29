@@ -129,11 +129,11 @@ function buildTowerFace(faceNum)
 end
 
 stone = "minecraft:cobblestone"
-log = "minecraft:log"
-planks = "minecraft:planks"
-slab = "minecraft:stone_slab"
+log = "minecraft:spruce_log"
+planks = "minecraft:spruce_planks"
+slab = "minecraft:stone_brick_slab"
 stair = "minecraft:stone_brick_stairs"
-brick = "minecraft:stonebrick"
+brick = "minecraft:stone_bricks"
 -- used when we need to place against something
 -- but that hasnt been built (yet)
 -- note: to remove it, we need a mining turtle!

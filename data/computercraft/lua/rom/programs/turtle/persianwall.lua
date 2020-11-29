@@ -62,10 +62,8 @@ function buildLowerWallPiece()
 end
 
 -- if these are local then lib gets a nil value
---stone = "minecraft:stone"
 stone = "minecraft:cobblestone"
-stair = "minecraft:stone_stairs"
-coal = "minecraft:coal"
+stair = "minecraft:cobblestone_stairs"
 
 -- should be called with
 -- persianwall X LY RZ etc

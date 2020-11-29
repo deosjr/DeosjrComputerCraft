@@ -5,13 +5,14 @@
 local i = 0 -- instruction pointer
 local y = 0 -- current relative height
 local side = "right" -- used in digPlane
+local stop = false -- used to communicate key Q pressed
 
-local sapling = "minecraft:sapling"
-local spruce = 1
-local log = "minecraft:log"
-local bonemeal = "minecraft:dye"
-local bonemealdmg = 15
-local coal = "minecraft:coal"
+local sapling = "minecraft:spruce_sapling"
+local spruce = nil --1
+local log = "minecraft:spruce_log"
+local bonemeal = "minecraft:bone_meal"
+local bonemealdmg = nil --15
+local coal = "minecraft:charcoal"
 
 local memfile = "sprucewillis.mem"
 
@@ -212,9 +213,23 @@ action = {
 	turtle.turnLeft,
 }
 
-while true do
-	-- table is 1-based, modulo arithmetic is 0-based
-	action[i+1]()
-	i = ((i + 1) % #action)
-	writemem()
+function main()
+	while not stop do
+		-- table is 1-based, modulo arithmetic is 0-based
+		action[i+1]()
+		i = ((i + 1) % #action)
+		writemem()
+	end
 end
+
+function keyInterrupt()
+	while true do
+		local event, key, isHeld = os.pullEvent("key")
+		if key == keys.q then
+			stop = true
+			break
+		end
+	end
+end
+
+parallel.waitForAny(main, keyInterrupt)

@@ -51,10 +51,10 @@ function placeFloor()
 end
 
 stone = "minecraft:cobblestone"
-log = "minecraft:log"
-slab = "minecraft:stone_slab"
+log = "minecraft:spruce_log"
+slab = "minecraft:stone_brick_slab"
 stair = "minecraft:stone_brick_stairs"
-brick = "minecraft:stonebrick"
+brick = "minecraft:stone_bricks"
 
 -- initial fuel needs are for finding the opposite tower
 -- and coming back. Maybe make an optional arg for it?

@@ -24,8 +24,8 @@ print("The modem receiving this is located on my "..modemSide.." side")
 print("The message was: "..message)
 print("The sender is: "..(senderDistance or "an unknown number of").." blocks away from me.")
 ]]--
---local success, data = turtle.inspect()
---print(success, dump(data))
+local success, data = turtle.inspect()
+print(success, dump(data))
 --local data = turtle.getItemDetail()
 --print(dump(data))
 --lib.reSelectItem("minecraft:stonebrick")
@@ -47,5 +47,3 @@ lib.placeUp(slab, variant1)
 ]]--
 planks = "minecraft:planks"
 slab = "minecraft:stone_slab"
-
-turtle.dig()

@@ -55,33 +55,31 @@ if arg[2] then
 end
 
 stone = "minecraft:cobblestone"
-planks = "minecraft:planks"
-slab_cobble = "minecraft:stone_slab"
-slab_brick = "minecraft:stone_slab"
-brick = "minecraft:stonebrick"
-stair = "minecraft:stone_stairs"
+planks = "minecraft:spruce_planks"
+slab_cobble = "minecraft:cobblestone_slab"
+slab_brick = "minecraft:stone_brick_slab"
+stair = "minecraft:stone_brick_stairs"
+brick = "minecraft:stone_bricks"
 torch = "minecraft:torch"
 -- damage values. set to nil if dont want to check
 -- todo: slabs can have different names too?
-slab_cobble_damage = 3
-slab_brick_damage = 5
+-- outdated in 1.16.4
+slab_cobble_damage = nil --3
+slab_brick_damage = nil --5
 
 if deluxe then
 	stone = "minecraft:sandstone"
-	planks = "minecraft:concrete" -- which also seem to differ in the damage value. purple is 10
-	slab_cobble = "minecraft:stone_slab"
-	slab_brick = "minecraft:stone_slab2"
+	planks = "minecraft:purple_concrete"
+	slab_cobble = "minecraft:sandstone_slab"
+	slab_brick = "minecraft:red_sandstone_slab"
 	brick = "minecraft:red_sandstone"
 	stair = "minecraft:sandstone_stairs"
 	torch = "minecraft:torch"
-	slab_cobble_damage = 1
-	slab_brick_damage = nil
 end
 
 -- phase 1: ground floor walls and outer walkway
 if not startFromPhase or startFromPhase <= 1 then
 	lib.refuelWithCoalIfNeeded(368)
-	print("DEBUG: remember, brick slabs")
 	mat = {}
 	mat[stone] = 269
 	mat[planks] = 66
@@ -434,16 +432,11 @@ end
 if not startFromPhase or startFromPhase <= 2 then
 	-- phase 2: first wall and stairs up
 	lib.refuelWithCoalIfNeeded(5000)
-	print("DEBUG: remember, cobble AND brick slabs")
 	mat = {}
 	mat[stone] = 10*64 - 48
 	mat[planks] = 2 * 64 - 36
 	mat[slab_brick] = 64 - 19
-	if slab_brick == slab_cobble then
-		mat[slab_brick] = mat[slab_brick] + 64 - 8
-	else
-		mat[slab_cobble] = 64 - 8
-	end
+	mat[slab_cobble] = 64 - 8
 	mat[brick] = 64 - 16
 	mat[stair] = 64 - 38
 	lib.blockUntilMaterial(mat)
@@ -474,16 +467,11 @@ end
 -- phase 3: 
 if not startFromPhase or startFromPhase <= 3 then
 	lib.refuelWithCoalIfNeeded(5000)
-	print("DEBUG: remember, cobble AND brick slabs")
 	mat = {}
 	mat[stone] = 6*64 - 15
 	mat[planks] = 65
 	mat[slab_brick] = 64 - 27
-	if slab_brick == slab_cobble then
-		mat[slab_brick] = mat[slab_brick] + 64 - 6
-	else
-		mat[slab_cobble] = 64 - 6
-	end
+	mat[slab_cobble] = 64 - 6
 	mat[brick] = 64 - 43
 	mat[stair] = 64 - 48
 	mat[torch] = 64 - 28

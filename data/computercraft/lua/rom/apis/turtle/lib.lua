@@ -213,8 +213,8 @@ function refuelWithCoalIfNeeded(needed)
     if missing <= 0 then
         return
     end
-    -- 1 unit of (char)coal gives 80 fuel units
-    local coal = "minecraft:coal"
+    -- 1 unit of charcoal gives 80 fuel units
+    local coal = "minecraft:charcoal"
     local fuelNeeds = {}
     fuelNeeds[coal] = missing/80
     lib.blockUntilMaterial(fuelNeeds)
