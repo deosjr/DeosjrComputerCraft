@@ -1,5 +1,3 @@
-lib.refuel()
-
 local y = 0
 
 -- starts on a 4x4 platform with 4 spruce/birch trees planted in corners
@@ -24,6 +22,10 @@ function chopTree()
 	turtle.forward()
 end
 
-for i=1,4 do
+-- todo should check in between each action, really
+while true do
+	if turtle.getFuelLevel() < 15 then
+		turtle.refuel()
+	end
 	chopTree()
 end

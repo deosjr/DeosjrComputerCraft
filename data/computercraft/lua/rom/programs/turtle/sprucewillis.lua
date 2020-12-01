@@ -3,7 +3,6 @@
 
 -- these three states need to be stored in mem
 local i = 0 -- instruction pointer
-local y = 0 -- current relative height
 local side = "right" -- used in digPlane
 local stop = false -- used to communicate key Q pressed
 
@@ -13,13 +12,13 @@ local log = "minecraft:spruce_log"
 local bonemeal = "minecraft:bone_meal"
 local bonemealdmg = nil --15
 local coal = "minecraft:charcoal"
+local stick = "minecraft:stick"
 
 local memfile = "sprucewillis.mem"
 
 if fs.exists(memfile) then
    local f = fs.open(memfile, "r")
    i = tonumber(f.readLine())
-   y = tonumber(f.readLine())
    side = f.readLine()
    f.close()
 end
@@ -27,7 +26,6 @@ end
 function writemem()
 	local f = fs.open(memfile, "w")
 	f.write(tostring(i).."\n")
-	f.write(tostring(y).."\n")
 	f.write(side)
     f.close()
 end
@@ -70,24 +68,11 @@ function changeSide()
 	end
 end
 
-function moveDown()
-	while y > 0 do
-		local success, data = turtle.inspectDown()
-		if success then
-			if data.name == "minecraft:chest" then
-				error("DEBUG: almost cut down chest!")
-			end
-			turtle.digDown()
-		end
-		turtle.down()
-		y = y-1
-	end
-end
-
 function dropLogs()
 	repeat
 		lib.dropAll(log)
-	until lib.itemTotal(log) == 0
+		lib.dropAll(stick)
+	until lib.itemTotal(log) == 0 and lib.itemTotal(stick) == 0
 end
 
 function refuelFromChest()
@@ -133,20 +118,28 @@ function waitForTree()
 		end
 		if lib.itemTotal(bonemeal, bonemealdmg) > 0 then
 			lib.place(bonemeal, bonemealdmg)
-			os.sleep(2)
 		end
 	end
 end
 
-function condJump(d, condition)
-	if condition then
-		i = i + d
+function endOfTheTree()
+	success, data = turtle.inspectDown()
+	if success and data.name == "minecraft:chest" then
+		print("something went wrong")
+		return true
 	end
+	return success and data.name == "minecraft:podzol"
 end
 
 -- go x instructions forward (or back if negative)
 function goto(x)
 	i = i + x - 1
+end
+
+function condJump(d, condition)
+	if condition then
+		goto(d)
+	end
 end
 
 action = {
@@ -156,12 +149,9 @@ action = {
 	turtle.forward,
 	turtle.dig,
 	turtle.forward,
-	function () condJump(3, lib.itemTotal(sapling, spruce) >= 4) end,
 	turtle.turnRight,
 	saplingsFromChest,
-	turtle.turnLeft,
 	-- start placing saplings
-	turtle.turnRight,
 	turtle.back,
 	placeSapling,
 	turtle.turnLeft,
@@ -175,9 +165,15 @@ action = {
 	placeSapling,
 	-- done placing saplings
 	waitForTree,
+	-- start move up
+	function () condJump(4, not turtle.detect()) end,
+	turtle.digUp,
+	turtle.up,
+	function () goto(-3) end,
+	-- end move up
+	turtle.down,
 	turtle.dig,
 	turtle.forward,
-	function () condJump(9, not turtle.detect() and not turtle.detectUp()) end,
 	-- start digplane
 	turtle.dig,
 	turnSide,
@@ -188,14 +184,12 @@ action = {
 	end,
 	turnSide,
 	turtle.dig,
-	turtle.digUp,
-	function () 
-		turtle.up()
-		y = y + 1
-	end,
+	function () condJump(4, endOfTheTree()) end,
+	turtle.digDown,
+	turtle.down,
 	-- end digplane
 	function () goto(-9) end,
-	function () condJump(3, side == "right") end,
+	function () condJump(4, side == "right") end,
 	turnSide,
 	function () 
 		changeSide()
@@ -204,9 +198,8 @@ action = {
 	turnSide,
 	turtle.turnLeft,
 	turtle.turnLeft,
-	turtle.dig,
+	turtle.dig, -- debug: watch out for chest
 	turtle.forward,
-	moveDown,
 	turtle.turnRight,
 	dropLogs,
 	turtle.turnLeft,
