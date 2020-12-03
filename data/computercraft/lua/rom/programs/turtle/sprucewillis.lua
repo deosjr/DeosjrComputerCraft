@@ -1,9 +1,10 @@
 -- starts facing coal chest, then moves to plant saplings.
 -- ends facing a 2x2 tree, facing north, on the rightmost square, then cuts it
 
--- these three states need to be stored in mem
+-- these two states need to be stored in mem
 local i = 0 -- instruction pointer
 local side = "right" -- used in digPlane
+
 local stop = false -- used to communicate key Q pressed
 
 local sapling = "minecraft:spruce_sapling"

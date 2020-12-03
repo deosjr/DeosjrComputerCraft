@@ -50,6 +50,10 @@ function getEquipped()
 	return item.name
 end
 
+if fs.exists("startup.lua") then
+	return
+end
+
 print("isturtle: "..tostring(isTurtle()))
 if isTurtle() then
 	item = getEquipped()
@@ -58,7 +62,8 @@ if isTurtle() then
 		print("todo")
 	elseif item == "minecraft:diamond_axe" then
 		shell.run("label set bruce")
-		print("place me in front of a tree to get started")
+		shell.run("setstartup bruce")
+		shell.run("startup.lua")
 	elseif item == "minecraft:diamond_pickaxe" then
 		shell.run("label set miner")
 		print("place me somewhere i dont care")
