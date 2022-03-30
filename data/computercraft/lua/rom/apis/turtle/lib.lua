@@ -71,7 +71,7 @@ function tryReSelectItem(name)
         local data = turtle.getItemDetail(i)
         if data and data.name == name then
             turtle.select(i)
-            return
+            return true
         end
     end
     item = currentItem()

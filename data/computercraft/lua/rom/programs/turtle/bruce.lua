@@ -39,13 +39,14 @@ function waitForTree()
 	end
 end
 
-function refuelIfNeeded(amount)
-	lib.reSelectItem(log)
-	if not amount then
-		turtle.refuel()
-	else
-		turtle.refuel(amount)
+function refuelIfNeeded(needed)
+	local amount = fuelLimit - turtle.getFuelLevel()
+	if amount <= 0 then
+		os.sleep(0.1)
+		return
 	end
+	lib.reSelectItem(log)
+	turtle.refuel(amount)
 	os.sleep(0.1)
 end
 
@@ -66,13 +67,9 @@ action = {
 	--
 	turtle.up,
 	function () i = mem.goto(i, -5) end,
-	function () i = mem.condJump(i, 5, turtle.detectDown()) end,
-	-- repeated refuel check
-	function () i = mem.condJump(i, 2, turtle.getFuelLevel() >= fuelLimit) end,
-	refuelIfNeeded,
-	--
+	function () i = mem.condJump(i, 3, turtle.detectDown()) end,
 	turtle.down,
-	function () i = mem.goto(i, -4) end,
+	function () i = mem.goto(i, -2) end,
 }
 
 function main()
